@@ -24,7 +24,7 @@ const quizzes_orig = path.join(path_assignment, 'quizzes.sqlite');
 const quizzes_back = path.join(path_assignment, 'quizzes.original.sqlite');
 const quizzes_test = path.join(__dirname, 'quizzes.sqlite');
 const browser = new Browser();
-let url = "http://localhost:5000";
+const url = "http://localhost:5000";
 
 // HELPERS
 const timeout = ms => new Promise(res => setTimeout(res, ms));
@@ -159,13 +159,15 @@ describe("CORE19-10_quiz_tips", function () {
         this.score = 1;
         if (error_critical) {
             this.msg_err = error_critical;
-            should.not.exist(error_critical);
         } else {
             this.msg_ok = `Server responded at ${expected}`;
             [error_nav, resp] = await to(browser.visit(expected));
-            this.msg_err = `Server not responding at ${expected}\nError:${error_nav}\nReceived:${browser.text('body')}`;
-            should.not.exist(error_nav);
+            this.msg_err = `Server not responding at ${expected}\n\t\tError:${error_nav}\n\t\tReceived:${browser.text('body')}`;
+            if (error_nav){
+                error_critical = this.msg_err;
+            }
         }
+        should.not.exist(error_critical);
     });
 
     it('', async function () {
