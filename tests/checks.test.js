@@ -1,5 +1,5 @@
 /**
- * Corrector para la práctica CORE19-10_quiz_tips
+ * CORE19-10_quiz_tips assignment checker
  */
 
 // IMPORTS
@@ -28,6 +28,7 @@ let url = "http://localhost:5000";
 
 // HELPERS
 const timeout = ms => new Promise(res => setTimeout(res, ms));
+let server;
 
 //TESTS
 describe("CORE19-10_quiz_tips", function () {
