@@ -51,10 +51,9 @@ describe("CORE19-10_quiz_tips", function () {
         this.score = 0;
         if (error_critical) {
             this.msg_err = error_critical;
-
         } else {
-            this.msg_ok = "Dependencies installed successfully";
-            this.msg_err = "Error installing dependencies";
+            this.msg_ok = `The file '${path_json}' has been found`;
+            this.msg_err = `The file '${path_json}' has not been found`;
             const path_json = path.join(path_assignment, 'package.json');
             const [json_nok, json_ok] = await to(fs.pathExists(path_json));
             if (json_nok || !json_ok) {
@@ -115,10 +114,10 @@ describe("CORE19-10_quiz_tips", function () {
         this.score = 0;
         if (error_critical) {
             this.msg_err = error_critical;
+            should.not.exist(error_critical);
         } else {
             this.msg_ok = "'quizzes.sqlite' replaced successfully";
             this.msg_err = "Error replacing 'quizzes.sqlite'";
-            let error_deps;
             try {
                 fs.copySync(quizzes_orig, quizzes_back, {"overwrite": true});
             } catch (e) {
@@ -127,8 +126,8 @@ describe("CORE19-10_quiz_tips", function () {
             if (error_deps) {
                 this.msg_err = "Error copying the answers file: " + error_deps;
             }
+            should.not.exist(error_critical);
         }
-        should.not.exist(error_critical);
     });
 
     it('', async function () {
