@@ -355,6 +355,24 @@ describe("CORE19-10_quiz_tips", function () {
         }
     });
 
+    it('', async function () {
+        const expected =  /[edit|add]/i;
+        let myurl = url + "quizzes/5/tips/2/edit";
+        this.name = `14: Checking that the server lets the registered user edit the clues...`;
+        this.score = 2;
+        if (error_critical) {
+            this.msg_err = error_critical;
+            should.not.exist(error_critical);
+        } else {
+            this.msg_ok = `Found the registered user '${expected}' in the clues  at ${myurl}`;
+            [error_nav, resp] = await to(browser.visit(myurl));
+            this.msg_err = `Server not responding at ${myurl}\n\t\tError:${error_nav}\n\t\tReceived:${browser.text('body')}`;
+            should.not.exist(error_nav);
+            this.msg_err = `Registered user not found in the clues at ${myurl}\n\t\tReceived:${browser.text('body')}`;
+            Utils.search(expected, browser.text('body')).should.be.equal(true);
+        }
+    });
+
     after("Restoring the original file", async function () {
         if (server) {
             server.kill();
