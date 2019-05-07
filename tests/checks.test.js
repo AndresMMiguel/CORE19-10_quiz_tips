@@ -144,6 +144,11 @@ describe("CORE19-10_quiz_tips", function () {
             server.on('error', function (data) {
                 error_launch += data
             });
+            server.stderr.on('data', function (data) {
+                if (Utils.search("Error", data)){
+                    error_launch += data
+                }
+            });
             await to(timeout(T_WAIT * 1000));
             this.msg_err = `Error launching '${expected}'<<\n\t\t\tReceived: ${error_launch}`;
             if (error_launch.length) {
@@ -344,7 +349,7 @@ describe("CORE19-10_quiz_tips", function () {
         const expected = '1';
         let myurl = url + '/randomcheck/1?answer=OK';
         this.name = `13: Checking the score at ${myurl}...`;
-        this.score = 2;
+        this.score = 1;
         if (error_critical) {
             this.msg_err = error_critical;
             should.not.exist(error_critical);
@@ -359,7 +364,7 @@ describe("CORE19-10_quiz_tips", function () {
         const expected =  /[edit|add]/i;
         let myurl = url + "quizzes/5/tips/2/edit";
         this.name = `14: Checking that the server lets the registered user edit the clues...`;
-        this.score = 2;
+        this.score = 1;
         if (error_critical) {
             this.msg_err = error_critical;
             should.not.exist(error_critical);
